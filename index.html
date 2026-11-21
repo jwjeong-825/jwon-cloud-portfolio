@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="조선대학교 컴퓨터공학과 정주원의 개인 프로필과 클라우드·DevOps 학습 기록">
+  <meta name="theme-color" content="#0b1220">
+  <title>J.WON — Personal Profile / Cloud Engineering</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --surface: #111c2d;
+      --surface-2: #162338;
+      --text: #f3f6fb;
+      --muted: #a7b4c6;
+      --accent: #4a9eff;
+      --accent-soft: #8ac2ff;
+      --border: #26354a;
+      --success: #70d7ae;
+      --warning: #e9bf77;
+      --danger: #ff8c8c;
+      --max: 1180px;
+      --radius: 12px;
+      --shadow: 0 18px 50px rgba(0, 0, 0, .22);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      background: var(--bg);
+      font-family: Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", Inter, system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      word-break: keep-all;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, black, transparent 72%);
+    }
+    a { color: inherit; }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { color: inherit; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+    ::selection { color: #06111f; background: var(--accent-soft); }
+
+    .skip-link {
+      position: fixed; left: 16px; top: -80px; z-index: 200;
+      padding: 10px 16px; color: #07101d; background: var(--text); border-radius: 6px;
+    }
+    .skip-link:focus { top: 16px; }
+    .shell { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid rgba(38,53,74,.8);
+      background: rgba(11,18,32,.92);
+      backdrop-filter: blur(12px);
+    }
+    .header-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 13px; text-decoration: none; }
+    .brand-mark {
+      width: 34px; height: 34px; display: grid; place-items: center;
+      color: var(--bg); background: var(--text); font-size: 13px; font-weight: 900; letter-spacing: -.08em;
+    }
+    .brand-copy { display: grid; line-height: 1.15; }
+    .brand-copy strong { font-size: 15px; letter-spacing: .08em; }
+    .brand-copy small { margin-top: 4px; color: var(--muted); font-size: 11px; letter-spacing: .12em; }
+    .desktop-nav { display: flex; align-items: center; gap: 28px; }
+    .desktop-nav a { color: var(--muted); font-size: 14px; text-decoration: none; }
+    .desktop-nav a:hover { color: var(--text); }
+    .nav-status { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
+    .nav-status i { width: 7px; height: 7px; border-radius: 50%; background: var(--warning); box-shadow: 0 0 0 4px rgba(233,191,119,.1); }
+    .menu-button { display: none; width: 42px; height: 42px; border: 1px solid var(--border); background: transparent; cursor: pointer; }
+    .mobile-nav { display: none; border-top: 1px solid var(--border); padding: 10px 20px 18px; }
+    .mobile-nav.is-open { display: grid; }
+    .mobile-nav a { padding: 12px 4px; color: var(--muted); text-decoration: none; border-bottom: 1px solid rgba(38,53,74,.55); }
+
+    .view { display: none; }
+    .view.is-active { display: block; animation: view-in .34s ease both; }
+    @keyframes view-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    .hero { min-height: 610px; display: grid; grid-template-columns: 1.4fr .6fr; border-bottom: 1px solid var(--border); }
+    .hero-main { padding: 86px 64px 72px 0; display: flex; flex-direction: column; justify-content: center; }
+    .eyebrow { margin: 0 0 20px; color: var(--accent-soft); font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .hero h1 { margin: 0; font-size: clamp(68px, 10vw, 132px); line-height: .9; letter-spacing: -.075em; }
+    .roman-name { margin: 22px 0 0; color: var(--muted); font-size: clamp(15px, 2vw, 20px); letter-spacing: .28em; }
+    .hero-lead { max-width: 690px; margin: 40px 0 0; font-size: clamp(20px, 2.5vw, 30px); line-height: 1.45; letter-spacing: -.025em; }
+    .hero-role { margin: 22px 0 0; color: var(--muted); }
+    .hero-role strong { color: var(--accent-soft); font-weight: 650; }
+    .hero-aside { position: relative; padding: 70px 0 54px 42px; border-left: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; }
+    .monogram { position: relative; width: 100%; aspect-ratio: 1; max-width: 260px; margin-left: auto; }
+    .monogram::before, .monogram::after { content: ""; position: absolute; border: 1px solid var(--border); }
+    .monogram::before { inset: 0; transform: rotate(8deg); }
+    .monogram::after { inset: 16%; transform: rotate(-8deg); border-color: rgba(74,158,255,.5); }
+    .monogram span { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(64px, 9vw, 112px); font-weight: 800; letter-spacing: -.12em; }
+    .hero-meta { display: grid; gap: 14px; margin-top: 48px; }
+    .hero-meta div { display: flex; justify-content: space-between; gap: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .hero-meta span { color: var(--muted); font-size: 13px; }
+    .hero-meta strong { font-size: 14px; font-weight: 600; text-align: right; }
+
+    .section { padding: 96px 0; border-bottom: 1px solid var(--border); }
+    .section-head { display: grid; grid-template-columns: 180px 1fr; gap: 44px; margin-bottom: 48px; }
+    .section-index { color: var(--accent); font-size: 13px; font-weight: 700; letter-spacing: .12em; }
+    .section-title { margin: 0; font-size: clamp(32px, 5vw, 54px); line-height: 1.12; letter-spacing: -.045em; }
+    .section-desc { max-width: 660px; margin: 16px 0 0; color: var(--muted); }
+
+    .profile-ledger { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--border); }
+    .ledger-row { display: grid; grid-template-columns: 100px 1fr; gap: 28px; padding: 22px 10px 22px 0; border-bottom: 1px solid var(--border); }
+    .ledger-row:nth-child(odd) { margin-right: 36px; }
+    .ledger-row dt { color: var(--muted); font-size: 14px; }
+    .ledger-row dd { margin: 0; font-weight: 600; }
+    .ledger-row a { text-decoration-color: rgba(74,158,255,.5); text-underline-offset: 4px; }
+
+    .education-line { display: grid; grid-template-columns: repeat(4, 1fr); counter-reset: edu; }
+    .edu-stop { position: relative; padding: 34px 24px 0 0; border-top: 1px solid var(--border); counter-increment: edu; }
+    .edu-stop::before { content: ""; position: absolute; width: 9px; height: 9px; top: -5px; left: 0; background: var(--bg); border: 2px solid var(--accent); }
+    .edu-stop::after { content: "0" counter(edu); display: block; margin-bottom: 36px; color: var(--muted); font-size: 13px; letter-spacing: .12em; }
+    .edu-stop strong { display: block; font-size: 18px; }
+    .edu-stop span { color: var(--muted); font-size: 14px; }
+
+    .identity-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .interest-panel { min-height: 280px; padding: 38px; background: var(--surface); }
+    .interest-panel h3 { margin: 0 0 28px; font-size: 22px; }
+    .interest-list { display: grid; }
+    .interest-row { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 16px; padding: 17px 0; border-top: 1px solid var(--border); }
+    .interest-row .symbol { color: var(--accent-soft); font-family: ui-monospace, monospace; font-weight: 700; }
+    .interest-row small { color: var(--muted); }
+    .identity-note { display: flex; flex-direction: column; justify-content: space-between; min-height: 280px; padding: 38px; color: #07101d; background: var(--accent-soft); }
+    .identity-note p { margin: 0; max-width: 400px; font-size: 26px; line-height: 1.45; letter-spacing: -.025em; }
+    .identity-note small { font-weight: 700; letter-spacing: .1em; }
+
+    .vision-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 18px; margin-bottom: 48px; }
+    .vision-step { padding: 28px; border: 1px solid var(--border); }
+    .vision-step span { display: block; margin-bottom: 8px; color: var(--muted); font-size: 12px; letter-spacing: .1em; }
+    .vision-step strong { font-size: 20px; }
+    .flow-line { width: 38px; height: 1px; background: var(--accent); }
+    .vision-copy { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+    .vision-copy p { margin: 0; font-size: 20px; line-height: 1.75; }
+    .topic-list { display: flex; flex-wrap: wrap; gap: 10px; align-content: start; }
+    .topic-list span { padding: 9px 12px; color: var(--muted); border: 1px solid var(--border); font-size: 14px; }
+
+    .portal-intro { margin-bottom: 34px; color: var(--muted); }
+    .portal-list { border-top: 1px solid var(--border); }
+    .portal-link {
+      width: 100%; display: grid; grid-template-columns: 80px 1fr minmax(240px, .85fr) 44px; align-items: center; gap: 20px;
+      padding: 26px 8px; color: var(--text); background: transparent; border: 0; border-bottom: 1px solid var(--border); text-align: left; cursor: pointer;
+      transition: background .2s ease, padding .2s ease;
+    }
+    .portal-link:hover { padding-inline: 18px; background: var(--surface); }
+    .portal-link .num { color: var(--accent); font-family: ui-monospace, monospace; font-size: 13px; }
+    .portal-link h3 { margin: 0; font-size: 21px; letter-spacing: -.02em; }
+    .portal-link p { margin: 0; color: var(--muted); font-size: 14px; }
+    .portal-link .open-mark { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--border); font-size: 18px; }
+
+    .detail-header { padding: 58px 0 50px; border-bottom: 1px solid var(--border); }
+    .back-button { display: inline-flex; align-items: center; gap: 10px; padding: 10px 0; color: var(--muted); background: transparent; border: 0; cursor: pointer; }
+    .back-button:hover { color: var(--text); }
+    .detail-kicker { margin: 54px 0 12px; color: var(--accent); font-size: 13px; font-weight: 700; letter-spacing: .14em; }
+    .detail-header h1 { max-width: 900px; margin: 0; font-size: clamp(46px, 8vw, 94px); line-height: .98; letter-spacing: -.06em; }
+    .detail-summary { max-width: 720px; margin: 28px 0 0; color: var(--muted); font-size: 19px; }
+    .detail-body { padding: 72px 0 110px; }
+    .detail-panel { display: none; }
+    .detail-panel.is-active { display: block; }
+    .minor-heading { margin: 0 0 26px; font-size: 14px; color: var(--accent-soft); letter-spacing: .1em; text-transform: uppercase; }
+
+    .about-editorial { display: grid; grid-template-columns: .7fr 1.3fr; gap: 80px; }
+    .about-quote { margin: 0; font-size: 31px; line-height: 1.5; letter-spacing: -.035em; }
+    .about-copy { color: var(--muted); }
+    .about-copy p:first-child { margin-top: 0; color: var(--text); font-size: 21px; }
+    .principles { margin-top: 56px; border-top: 1px solid var(--border); }
+    .principle { display: grid; grid-template-columns: 130px 1fr; gap: 28px; padding: 24px 0; border-bottom: 1px solid var(--border); }
+    .principle strong { color: var(--accent-soft); }
+    .principle p { margin: 0; color: var(--muted); }
+
+    .stack-groups { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .stack-group { padding: 34px; background: var(--bg); }
+    .stack-group.learning { background: var(--surface); }
+    .stack-group h2 { margin: 0 0 8px; font-size: 24px; }
+    .stack-group > p { margin: 0 0 28px; color: var(--muted); font-size: 14px; }
+    .stack-items { display: flex; flex-wrap: wrap; gap: 9px; }
+    .stack-items span { padding: 8px 11px; border: 1px solid var(--border); font-size: 14px; }
+    .experience-key { display: flex; gap: 24px; margin-top: 28px; color: var(--muted); font-size: 13px; }
+
+    .project-index { border-top: 1px solid var(--border); }
+    .project-item { border-bottom: 1px solid var(--border); }
+    .project-toggle { width: 100%; display: grid; grid-template-columns: 56px 1fr auto; gap: 20px; align-items: center; padding: 28px 0; color: var(--text); background: none; border: 0; text-align: left; cursor: pointer; }
+    .project-toggle .pnum { color: var(--accent); font-family: ui-monospace, monospace; }
+    .project-toggle h2 { margin: 0; font-size: 26px; }
+    .project-toggle p { margin: 5px 0 0; color: var(--muted); }
+    .project-toggle .toggle-symbol { color: var(--muted); font-size: 26px; transition: transform .2s; }
+    .project-item.is-open .toggle-symbol { transform: rotate(45deg); }
+    .project-detail { display: none; grid-template-columns: 1fr 1fr; gap: 48px; padding: 0 0 34px 76px; }
+    .project-item.is-open .project-detail { display: grid; }
+    .project-detail h3 { margin: 0 0 10px; font-size: 14px; color: var(--accent-soft); }
+    .project-detail p { margin: 0 0 22px; color: var(--muted); }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .project-tags span { padding: 6px 9px; border: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+    .unavailable-link { display: inline-block; margin-top: 24px; color: var(--muted); font-size: 13px; }
+
+    .architecture-layout { display: grid; grid-template-columns: 1.45fr .55fr; gap: 36px; }
+    .arch-canvas { padding: 42px 30px; border: 1px solid var(--border); background: var(--surface); overflow-x: auto; }
+    .arch-flow { min-width: 720px; display: grid; grid-template-columns: repeat(6, 1fr); align-items: center; gap: 16px; }
+    .arch-node { position: relative; min-height: 124px; padding: 19px 14px; color: var(--text); background: var(--bg); border: 1px solid var(--border); text-align: left; cursor: pointer; }
+    .arch-node:not(:last-child)::after { content: ""; position: absolute; width: 17px; height: 1px; right: -17px; top: 50%; background: var(--accent); }
+    .arch-node span { display: block; color: var(--accent); font-family: ui-monospace, monospace; font-size: 11px; }
+    .arch-node strong { display: block; margin-top: 16px; font-size: 15px; }
+    .arch-node small { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; }
+    .arch-node[aria-pressed="true"] { border-color: var(--accent); background: #10233a; }
+    .arch-note { padding: 30px; border: 1px solid var(--border); }
+    .arch-note .status-label { display: inline-block; margin-bottom: 22px; padding: 5px 8px; color: var(--warning); border: 1px solid rgba(233,191,119,.35); font-size: 12px; }
+    .arch-note h2 { margin: 0 0 14px; font-size: 22px; }
+    .arch-note p { margin: 0; color: var(--muted); }
+    .arch-disclaimer { margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+
+    .deploy-layout { display: grid; grid-template-columns: 1fr 280px; gap: 70px; }
+    .deploy-steps { counter-reset: deploy; border-top: 1px solid var(--border); }
+    .deploy-step { counter-increment: deploy; display: grid; grid-template-columns: 64px 1fr; gap: 22px; padding: 30px 0; border-bottom: 1px solid var(--border); }
+    .deploy-step::before { content: "0" counter(deploy); color: var(--accent); font-family: ui-monospace, monospace; }
+    .deploy-step h2 { margin: 0 0 8px; font-size: 20px; }
+    .deploy-step p { margin: 0; color: var(--muted); }
+    .verify-line { margin-top: 12px; font-size: 13px; color: var(--warning); }
+    .env-sheet { position: sticky; top: 105px; height: fit-content; border-top: 3px solid var(--accent); background: var(--surface); padding: 26px; }
+    .env-sheet h2 { margin: 0 0 22px; font-size: 18px; }
+    .env-row { padding: 14px 0; border-top: 1px solid var(--border); }
+    .env-row span { display: block; color: var(--muted); font-size: 12px; }
+    .env-row strong { display: block; margin-top: 3px; font-size: 14px; }
+
+    .terminal-window { max-width: 940px; margin: 0 auto; border: 1px solid #344862; background: #07101d; box-shadow: var(--shadow); }
+    .terminal-bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; color: var(--muted); background: #101b2a; border-bottom: 1px solid #283b52; font-family: ui-monospace, monospace; font-size: 13px; }
+    .terminal-lights { display: flex; gap: 7px; }
+    .terminal-lights i { width: 9px; height: 9px; border-radius: 50%; background: #52667e; }
+    .terminal-output { height: 430px; overflow-y: auto; padding: 24px; color: #c9d8e8; font-family: "Cascadia Code", Consolas, ui-monospace, monospace; font-size: 14px; line-height: 1.75; white-space: pre-wrap; }
+    .terminal-output .cmd { color: var(--accent-soft); }
+    .terminal-output .muted { color: #75869b; }
+    .terminal-form { display: flex; align-items: center; gap: 10px; padding: 0 24px 24px; font-family: "Cascadia Code", Consolas, monospace; }
+    .terminal-form label { color: var(--success); white-space: nowrap; }
+    .terminal-form input { width: 100%; padding: 8px 0; color: var(--text); background: transparent; border: 0; outline: 0; }
+
+    .roadmap { position: relative; max-width: 920px; margin: 0 auto; }
+    .roadmap::before { content: ""; position: absolute; left: 20px; top: 20px; bottom: 20px; width: 1px; background: var(--border); }
+    .road-step { position: relative; display: grid; grid-template-columns: 42px 150px 1fr; gap: 24px; padding: 0 0 54px; }
+    .road-dot { position: relative; z-index: 1; width: 11px; height: 11px; margin: 8px 0 0 15px; background: var(--bg); border: 2px solid var(--muted); }
+    .road-step.current .road-dot { border-color: var(--accent); box-shadow: 0 0 0 7px rgba(74,158,255,.1); }
+    .road-state { color: var(--muted); font-size: 13px; letter-spacing: .08em; }
+    .road-step.current .road-state { color: var(--accent-soft); }
+    .road-content h2 { margin: 0 0 8px; font-size: 22px; }
+    .road-content p { margin: 0; color: var(--muted); }
+
+    .contact-layout { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .contact-primary { padding: 54px; background: var(--surface); }
+    .contact-primary h2 { margin: 0 0 38px; font-size: clamp(28px, 4vw, 44px); line-height: 1.3; }
+    .email-link { display: inline-block; color: var(--accent-soft); font-size: clamp(18px, 3vw, 29px); text-decoration-thickness: 1px; text-underline-offset: 8px; word-break: break-all; }
+    .copy-button { display: block; margin-top: 30px; padding: 12px 17px; color: var(--text); background: transparent; border: 1px solid var(--border); cursor: pointer; }
+    .copy-button:hover { border-color: var(--accent); }
+    .contact-secondary { padding: 54px; background: var(--bg); }
+    .contact-secondary h3 { margin: 0 0 24px; }
+    .pending-link { padding: 20px 0; border-top: 1px solid var(--border); }
+    .pending-link strong { display: block; }
+    .pending-link span { color: var(--muted); font-size: 14px; }
+
+    .site-footer { padding: 32px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; color: var(--muted); font-size: 13px; }
+    .footer-inner strong { color: var(--text); letter-spacing: .08em; }
+    .toast { position: fixed; right: 24px; bottom: 24px; z-index: 300; padding: 12px 16px; color: #07101d; background: var(--text); box-shadow: var(--shadow); transform: translateY(24px); opacity: 0; pointer-events: none; transition: .25s ease; }
+    .toast.is-visible { transform: none; opacity: 1; }
+
+    @media (max-width: 900px) {
+      .desktop-nav, .nav-status { display: none; }
+      .menu-button { display: grid; place-items: center; }
+      .hero { min-height: auto; grid-template-columns: 1fr; }
+      .hero-main { padding: 74px 0 56px; }
+      .hero-aside { min-height: 330px; padding: 48px 0 48px 32px; border-left: 0; border-top: 1px solid var(--border); flex-direction: row; align-items: end; gap: 40px; }
+      .monogram { width: 210px; margin: 0; }
+      .hero-meta { flex: 1; }
+      .section-head { grid-template-columns: 110px 1fr; }
+      .identity-grid, .vision-copy, .about-editorial, .architecture-layout, .contact-layout { grid-template-columns: 1fr; }
+      .portal-link { grid-template-columns: 60px 1fr 40px; }
+      .portal-link p { grid-column: 2 / 3; }
+      .deploy-layout { grid-template-columns: 1fr; }
+      .env-sheet { position: static; }
+    }
+
+    @media (max-width: 640px) {
+      .shell { width: min(calc(100% - 28px), var(--max)); }
+      .brand-copy small { display: none; }
+      .hero-main { padding-top: 58px; }
+      .hero h1 { font-size: clamp(64px, 23vw, 92px); }
+      .hero-lead { margin-top: 32px; font-size: 21px; }
+      .hero-aside { padding-left: 0; min-height: 0; align-items: stretch; flex-direction: column; }
+      .monogram { width: 170px; }
+      .hero-meta { width: 100%; margin-top: 12px; }
+      .section { padding: 68px 0; }
+      .section-head { grid-template-columns: 1fr; gap: 10px; margin-bottom: 36px; }
+      .profile-ledger { grid-template-columns: 1fr; }
+      .ledger-row:nth-child(odd) { margin-right: 0; }
+      .ledger-row { grid-template-columns: 84px 1fr; gap: 16px; }
+      .education-line { grid-template-columns: 1fr; padding-left: 10px; }
+      .edu-stop { padding: 0 0 32px 30px; border-top: 0; border-left: 1px solid var(--border); }
+      .edu-stop::before { top: 7px; left: -5px; }
+      .edu-stop::after { margin-bottom: 6px; }
+      .interest-panel, .identity-note { padding: 26px; }
+      .interest-row { grid-template-columns: 34px 1fr; }
+      .interest-row small { grid-column: 2; }
+      .identity-note p { font-size: 22px; }
+      .vision-flow { grid-template-columns: 1fr; }
+      .flow-line { width: 1px; height: 22px; margin-left: 28px; }
+      .portal-link { grid-template-columns: 42px 1fr 32px; gap: 10px; padding: 22px 0; }
+      .portal-link p { font-size: 13px; }
+      .detail-header { padding-top: 34px; }
+      .detail-kicker { margin-top: 36px; }
+      .detail-body { padding: 52px 0 84px; }
+      .stack-groups { grid-template-columns: 1fr; }
+      .stack-group { padding: 26px; }
+      .about-quote { font-size: 25px; }
+      .principle { grid-template-columns: 1fr; gap: 5px; }
+      .project-toggle { grid-template-columns: 38px 1fr auto; gap: 10px; }
+      .project-toggle h2 { font-size: 22px; }
+      .project-detail { grid-template-columns: 1fr; padding-left: 48px; gap: 12px; }
+      .arch-canvas { padding: 24px 16px; }
+      .deploy-step { grid-template-columns: 42px 1fr; gap: 10px; }
+      .terminal-output { height: 380px; padding: 18px; font-size: 13px; }
+      .terminal-form { padding: 0 18px 18px; font-size: 13px; }
+      .road-step { grid-template-columns: 40px 1fr; gap: 14px; }
+      .road-state { grid-column: 2; }
+      .road-content { grid-column: 2; }
+      .contact-primary, .contact-secondary { padding: 30px 24px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#home" data-route="home" aria-label="J.WON 홈으로 이동">
+        <span class="brand-mark" aria-hidden="true">JW</span>
+        <span class="brand-copy"><strong>J.WON</strong><small>PERSONAL PROFILE / CLOUD ENGINEERING</small></span>
+      </a>
+      <nav class="desktop-nav" aria-label="주요 탐색">
+        <a href="#profile">프로필</a>
+        <a href="#education">학력</a>
+        <a href="#vision">진로</a>
+        <a href="#explore">상세 콘텐츠</a>
+      </nav>
+      <div class="nav-status"><i aria-hidden="true"></i><span>배포 확인 전</span></div>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="메뉴 열기">☰</button>
+    </div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="모바일 탐색">
+      <a href="#profile">프로필</a><a href="#education">학력</a><a href="#vision">진로</a><a href="#explore">상세 콘텐츠</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <div id="home-view" class="view is-active">
+      <section class="shell hero" aria-labelledby="hero-title">
+        <div class="hero-main">
+          <p class="eyebrow">조선대학교 컴퓨터공학과</p>
+          <h1 id="hero-title">정주원</h1>
+          <p class="roman-name">JUNG JU WON</p>
+          <p class="hero-lead">클라우드 인프라를 기반으로 안정적인 서비스를 구축하고 운영하는 엔지니어를 목표로 하고 있습니다.</p>
+          <p class="hero-role"><strong>Cloud Engineer</strong> → <strong>DevOps Engineer</strong></p>
+        </div>
+        <aside class="hero-aside" aria-label="프로필 요약">
+          <div class="monogram" aria-hidden="true"><span>JW</span></div>
+          <div class="hero-meta">
+            <div><span>MAJOR</span><strong>Computer Engineering</strong></div>
+            <div><span>BASE</span><strong>Gwangju, Korea</strong></div>
+            <div><span>FOCUS</span><strong>Cloud / DevOps</strong></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" id="profile">
+        <div class="shell">
+          <header class="section-head"><span class="section-index">01 / PROFILE</span><div><h2 class="section-title">기본 프로필</h2><p class="section-desc">기술보다 먼저, 현재의 소속과 배경을 정확하게 소개합니다.</p></div></header>
+          <dl class="profile-ledger">
+            <div class="ledger-row"><dt>이름</dt><dd>정주원</dd></div>
+            <div class="ledger-row"><dt>성별</dt><dd>남성</dd></div>
+            <div class="ledger-row"><dt>출생지</dt><dd>서울특별시</dd></div>
+            <div class="ledger-row"><dt>거주지</dt><dd>광주광역시</dd></div>
+            <div class="ledger-row"><dt>대학교</dt><dd>조선대학교</dd></div>
+            <div class="ledger-row"><dt>전공</dt><dd>컴퓨터공학과</dd></div>
+            <div class="ledger-row"><dt>이메일</dt><dd><a href="mailto:tobotyjjj111@naver.com">tobotyjjj111@naver.com</a></dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="section" id="education">
+        <div class="shell">
+          <header class="section-head"><span class="section-index">02 / EDUCATION</span><div><h2 class="section-title">학력의 흐름</h2><p class="section-desc">서울에서 시작해 담양을 거쳐, 현재 광주에서 컴퓨터공학을 공부하고 있습니다.</p></div></header>
+          <div class="education-line" aria-label="학력 순서">
+            <div class="edu-stop"><strong>금곡초등학교</strong><span>Elementary School</span></div>
+            <div class="edu-stop"><strong>담양중학교</strong><span>Middle School</span></div>
+            <div class="edu-stop"><strong>창평고등학교</strong><span>High School</span></div>
+            <div class="edu-stop"><strong>조선대학교</strong><span>컴퓨터공학과</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="identity">
+        <div class="shell">
+          <header class="section-head"><span class="section-index">03 / OFFLINE</span><div><h2 class="section-title">코드 밖의 정주원</h2><p class="section-desc">프로야구를 보고 포켓몬을 플레이합니다. 응원과 수집, 꾸준히 파고드는 취향이 일상에 있습니다.</p></div></header>
+          <div class="identity-grid">
+            <div class="interest-panel">
+              <h3>Hobbies &amp; Interests</h3>
+              <div class="interest-list">
+                <div class="interest-row"><span class="symbol">BB</span><strong>두산 베어스</strong><small>프로야구 시청</small></div>
+                <div class="interest-row"><span class="symbol">FC</span><strong>맨체스터 유나이티드</strong><small>Football</small></div>
+                <div class="interest-row"><span class="symbol">PK</span><strong>포켓몬 마스터</strong><small>포켓몬 게임</small></div>
+              </div>
+            </div>
+            <aside class="identity-note"><p>좋아하는 팀은 오래 응원하고, 관심 있는 기술은 직접 만져보며 익히는 편입니다.</p><small>PERSONAL NOTE</small></aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="vision">
+        <div class="shell">
+          <header class="section-head"><span class="section-index">04 / DIRECTION</span><div><h2 class="section-title">Career Vision</h2><p class="section-desc">현재의 학습에서 시작해 배포와 운영을 책임지는 엔지니어로 성장하고자 합니다.</p></div></header>
+          <div class="vision-flow" aria-label="진로 확장 방향">
+            <div class="vision-step"><span>CURRENT FOCUS</span><strong>Cloud</strong></div><i class="flow-line" aria-hidden="true"></i>
+            <div class="vision-step"><span>NEXT DIRECTION</span><strong>DevOps</strong></div><i class="flow-line" aria-hidden="true"></i>
+            <div class="vision-step"><span>LONG-TERM INTEREST</span><strong>AI Infrastructure</strong></div>
+          </div>
+          <div class="vision-copy">
+            <p>Linux, Docker, AWS를 중심으로 실무 기반을 쌓고 있으며, 서비스의 배포부터 운영까지 이어지는 과정과 자동화에 관심이 있습니다.</p>
+            <div class="topic-list" aria-label="관심 분야"><span>AWS</span><span>Linux</span><span>Docker</span><span>CI/CD</span><span>Infrastructure as Code</span><span>Monitoring</span><span>MLOps</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="explore">
+        <div class="shell">
+          <header class="section-head"><span class="section-index">05 / EXPLORE</span><div><h2 class="section-title">더 자세히 보기</h2><p class="section-desc">프로젝트, 기술 학습, 클라우드 배포 과정을 주제별로 정리했습니다.</p></div></header>
+          <p class="portal-intro">항목을 선택하면 같은 페이지 안에서 독립적인 상세 화면으로 이동합니다.</p>
+          <div class="portal-list">
+            <button class="portal-link" data-page="about" type="button"><span class="num">01</span><h3>About Me</h3><p>전공, 관심 분야와 앞으로 이루고 싶은 목표</p><span class="open-mark" aria-hidden="true">＋</span></button>
+            <button class="portal-link" data-page="stack" type="button"><span class="num">02</span><h3>Tech Stack</h3><p>실습한 기술과 앞으로 학습할 기술의 구분</p><span class="open-mark" aria-hidden="true">＋</span></button>
+            <button class="portal-link" data-page="projects" type="button"><span class="num">03</span><h3>Projects</h3><p>네 가지 프로젝트에서 다룬 문제와 기술</p><span class="open-mark" aria-hidden="true">＋</span></button>
+            <button class="portal-link" data-page="architecture" type="button"><span class="num">04</span><h3>Cloud Architecture</h3><p>브라우저에서 index.html까지 이어지는 요청 흐름</p><span class="open-mark" aria-hidden="true">＋</span></button>
+            <button class="portal-link" data-page="deployment" type="button"><span class="num">05</span><h3>Deployment &amp; Operations</h3><p>EC2와 Nginx를 이용한 정적 페이지 배포 절차</p><span class="open-mark" aria-hidden="true">＋</span></button>
+            <button class="portal-link" data-page="terminal" type="button"><span class="num">06</span><h3>Interactive Terminal</h3><p>명령어로 탐색하는 작은 프로필 인터페이스</p><span class="open-mark" aria-hidden="true">＋</span></button>
+            <button class="portal-link" data-page="roadmap" type="button"><span class="num">07</span><h3>Career Roadmap</h3><p>기초부터 클라우드·DevOps 취업 준비까지</p><span class="open-mark" aria-hidden="true">＋</span></button>
+            <button class="portal-link" data-page="contact" type="button"><span class="num">08</span><h3>Contact</h3><p>이메일과 확인 가능한 연락 채널</p><span class="open-mark" aria-hidden="true">＋</span></button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="detail-view" class="view">
+      <header class="detail-header">
+        <div class="shell">
+          <button class="back-button" type="button" id="back-home">← <span>메인 프로필로 돌아가기</span></button>
+          <p class="detail-kicker" id="detail-kicker">DETAIL / 01</p>
+          <h1 id="detail-title">About Me</h1>
+          <p class="detail-summary" id="detail-summary"></p>
+        </div>
+      </header>
+      <div class="shell detail-body">
+        <section class="detail-panel" data-panel="about">
+          <div class="about-editorial">
+            <aside><p class="minor-heading">PROFILE STATEMENT</p><blockquote class="about-quote">사람을 먼저 소개하고, 기술 학습의 방향으로 그 사람의 목표를 보여주는 기록입니다.</blockquote></aside>
+            <div class="about-copy">
+              <p>조선대학교 컴퓨터공학과에서 컴퓨터 시스템과 프로그래밍의 기초를 배우고 있습니다.</p>
+              <p>여러 기술 중에서도 서비스가 실제 사용자에게 전달되는 기반인 클라우드 인프라와, 배포 이후의 안정적인 운영 과정에 관심을 두고 있습니다. 현재는 Linux, Docker, AWS를 중심으로 직접 구성하고 실행해 보는 학습을 이어가고 있습니다.</p>
+              <p>목표는 단순히 코드를 작성하는 데 그치지 않고, 서비스의 배포부터 운영까지 이해하고 책임질 수 있는 엔지니어가 되는 것입니다. 앞으로 CI/CD, Infrastructure as Code, 모니터링을 학습하며 DevOps 역량을 넓혀갈 계획입니다.</p>
+              <div class="principles">
+                <div class="principle"><strong>현재</strong><p>컴퓨터공학 기초와 프로그래밍, Linux·Docker·AWS 실습</p></div>
+                <div class="principle"><strong>관심</strong><p>반복 작업의 자동화, 예측 가능한 배포, 안정적인 서비스 운영</p></div>
+                <div class="principle"><strong>방향</strong><p>Cloud Engineer에서 DevOps Engineer로, 장기적으로 AI Infrastructure까지</p></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="detail-panel" data-panel="stack">
+          <div class="stack-groups">
+            <article class="stack-group"><h2>Cloud &amp; Infrastructure</h2><p>학습 및 실습 범위</p><div class="stack-items"><span>AWS EC2</span><span>Linux</span><span>Docker</span><span>Nginx</span></div></article>
+            <article class="stack-group"><h2>Programming</h2><p>전공 및 프로젝트에서 다루는 언어</p><div class="stack-items"><span>Python</span><span>Java</span><span>HTML</span><span>CSS</span><span>JavaScript</span><span>SQL</span></div></article>
+            <article class="stack-group"><h2>Backend &amp; Tools</h2><p>개발 환경과 데이터베이스</p><div class="stack-items"><span>FastAPI</span><span>Git</span><span>GitHub</span><span>Oracle Database</span></div></article>
+            <article class="stack-group learning"><h2>Learning &amp; Future</h2><p>앞으로 확장할 학습 영역 — 보유 역량을 뜻하지 않습니다</p><div class="stack-items"><span>CI/CD</span><span>Terraform</span><span>Kubernetes</span><span>Monitoring</span><span>MLOps</span></div></article>
+          </div>
+          <div class="experience-key"><span>※ 숙련도를 임의의 수치로 표현하지 않았습니다.</span><span>※ 실습 기술과 학습 예정 기술을 구분했습니다.</span></div>
+        </section>
+
+        <section class="detail-panel" data-panel="projects">
+          <p class="minor-heading">PROJECT INDEX / 항목을 열어 상세 보기</p>
+          <div class="project-index">
+            <article class="project-item"><button class="project-toggle" type="button" aria-expanded="false"><span class="pnum">01</span><span><h2>Naenglog</h2><p>식재료 관리 및 레시피 추천 서비스</p></span><span class="toggle-symbol">＋</span></button><div class="project-detail"><div><h3>해결하려는 문제</h3><p>보유 식재료를 파악하고 활용할 레시피를 찾는 과정을 한곳에서 관리합니다.</p><h3>주요 기능</h3><p>식재료 기록과 보유 재료 기반 레시피 탐색을 중심으로 구성한 서비스입니다.</p></div><div><h3>사용 기술</h3><div class="project-tags"><span>프로젝트별 상세 기술 확인 필요</span></div><span class="unavailable-link">GitHub URL 미제공</span></div></div></article>
+            <article class="project-item"><button class="project-toggle" type="button" aria-expanded="false"><span class="pnum">02</span><span><h2>OpsMate</h2><p>장애 상황 분석 및 대응을 지원하는 Incident Assistant</p></span><span class="toggle-symbol">＋</span></button><div class="project-detail"><div><h3>해결하려는 문제</h3><p>운영 중 발생한 장애 정보를 정리하고 대응 판단을 돕는 과정을 다룹니다.</p><h3>주요 기능</h3><p>장애 상황 분석과 대응 지원을 중심으로 설계한 Incident Assistant입니다.</p></div><div><h3>사용 기술</h3><div class="project-tags"><span>프로젝트별 상세 기술 확인 필요</span></div><span class="unavailable-link">GitHub URL 미제공</span></div></div></article>
+            <article class="project-item"><button class="project-toggle" type="button" aria-expanded="false"><span class="pnum">03</span><span><h2>EduMap AI</h2><p>교육과정 탐색 및 추천 서비스</p></span><span class="toggle-symbol">＋</span></button><div class="project-detail"><div><h3>해결하려는 문제</h3><p>여러 교육과정 중 목적에 맞는 정보를 찾고 비교하는 과정을 돕습니다.</p><h3>주요 기능</h3><p>교육과정 탐색과 추천 경험을 중심으로 구성한 서비스입니다.</p></div><div><h3>사용 기술</h3><div class="project-tags"><span>AI 활용</span><span>상세 기술 확인 필요</span></div><span class="unavailable-link">GitHub URL 미제공</span></div></div></article>
+            <article class="project-item"><button class="project-toggle" type="button" aria-expanded="false"><span class="pnum">04</span><span><h2>Pokémon Center</h2><p>FastAPI 기반 웹 애플리케이션 및 Docker 실습</p></span><span class="toggle-symbol">＋</span></button><div class="project-detail"><div><h3>프로젝트 목적</h3><p>좋아하는 포켓몬을 소재로 웹 백엔드와 컨테이너 실행 환경을 직접 실습합니다.</p><h3>주요 경험</h3><p>FastAPI 애플리케이션 구성과 Docker 기반 실행 환경을 다룹니다.</p></div><div><h3>사용 기술</h3><div class="project-tags"><span>FastAPI</span><span>Python</span><span>Docker</span></div><span class="unavailable-link">GitHub URL 미제공</span></div></div></article>
+          </div>
+        </section>
+
+        <section class="detail-panel" data-panel="architecture">
+          <div class="architecture-layout">
+            <div class="arch-canvas"><div class="arch-flow">
+              <button class="arch-node" type="button" data-arch="browser" aria-pressed="true"><span>01 / CLIENT</span><strong>Browser</strong><small>페이지 요청</small></button>
+              <button class="arch-node" type="button" data-arch="internet" aria-pressed="false"><span>02 / NETWORK</span><strong>Internet</strong><small>HTTP 전달</small></button>
+              <button class="arch-node" type="button" data-arch="security" aria-pressed="false"><span>03 / ACCESS</span><strong>Security Group</strong><small>HTTP 허용 규칙</small></button>
+              <button class="arch-node" type="button" data-arch="ec2" aria-pressed="false"><span>04 / COMPUTE</span><strong>AWS EC2</strong><small>Linux 인스턴스</small></button>
+              <button class="arch-node" type="button" data-arch="nginx" aria-pressed="false"><span>05 / SERVER</span><strong>Nginx</strong><small>정적 파일 제공</small></button>
+              <button class="arch-node" type="button" data-arch="html" aria-pressed="false"><span>06 / SOURCE</span><strong>index.html</strong><small>단일 정적 파일</small></button>
+            </div></div>
+            <aside class="arch-note" aria-live="polite"><span class="status-label">구성 검증 전</span><h2 id="arch-title">Browser</h2><p id="arch-description">방문자가 주소를 입력하면 웹페이지에 대한 HTTP 요청을 시작합니다.</p><p class="arch-disclaimer">다이어그램은 과제의 목표 배포 구성을 설명합니다. 실제 EC2 배포 확인 후 상태 문구를 ‘운영 중’으로 변경할 수 있습니다.</p></aside>
+          </div>
+        </section>
+
+        <section class="detail-panel" data-panel="deployment">
+          <div class="deploy-layout">
+            <div class="deploy-steps">
+              <article class="deploy-step"><div><h2>EC2 인스턴스 생성</h2><p>AWS에서 Linux 기반 가상 서버를 준비하고 접속에 필요한 키와 네트워크 설정을 확인합니다.</p><div class="verify-line">확인 항목: 인스턴스 실행 상태와 퍼블릭 주소</div></div></article>
+              <article class="deploy-step"><div><h2>Linux 서버 환경 설정</h2><p>SSH로 서버에 접속하고 패키지 정보를 갱신해 웹서버 설치를 준비합니다.</p><div class="verify-line">확인 항목: 원격 터미널 접속 성공</div></div></article>
+              <article class="deploy-step"><div><h2>보안 그룹 설정</h2><p>웹브라우저의 요청을 받을 수 있도록 필요한 HTTP 인바운드 규칙을 설정합니다.</p><div class="verify-line">확인 항목: TCP 80 접근 규칙</div></div></article>
+              <article class="deploy-step"><div><h2>Nginx 설치 및 실행</h2><p>정적 콘텐츠를 제공할 Nginx를 설치하고 서비스 실행 상태를 확인합니다.</p><div class="verify-line">확인 항목: Nginx 기본 페이지 응답</div></div></article>
+              <article class="deploy-step"><div><h2>index.html 전송</h2><p>SFTP 등 실제 수업에서 사용한 전송 방식으로 단일 HTML 파일을 웹 루트에 배치합니다.</p><div class="verify-line">확인 항목: 전송 방식과 배포 경로 기록</div></div></article>
+              <article class="deploy-step"><div><h2>브라우저 접속 확인</h2><p>EC2의 공개 주소로 접속해 화면, 상세 이동, 터미널, 모바일 레이아웃을 최종 확인합니다.</p><div class="verify-line">현재 상태: 실제 배포 확인 전</div></div></article>
+            </div>
+            <aside class="env-sheet"><h2>Deployment Sheet</h2><div class="env-row"><span>환경</span><strong>AWS EC2</strong></div><div class="env-row"><span>웹서버</span><strong>Nginx</strong></div><div class="env-row"><span>파일</span><strong>Static index.html</strong></div><div class="env-row"><span>전송</span><strong>FTP / SFTP — 실제 방식 확인 필요</strong></div><div class="env-row"><span>상태</span><strong>배포 확인 전</strong></div></aside>
+          </div>
+        </section>
+
+        <section class="detail-panel" data-panel="terminal">
+          <div class="terminal-window" aria-label="인터랙티브 프로필 터미널">
+            <div class="terminal-bar"><span>jwon-profile — javascript sandbox</span><span class="terminal-lights" aria-hidden="true"><i></i><i></i><i></i></span></div>
+            <div class="terminal-output" id="terminal-output" role="log" aria-live="polite"><span class="muted">J.WON Profile Terminal v1.0
+실제 운영체제 명령은 실행하지 않습니다. 'help'를 입력해 보세요.</span>
+</div>
+            <form class="terminal-form" id="terminal-form"><label for="terminal-input">visitor@jwon:~$</label><input id="terminal-input" autocomplete="off" spellcheck="false" aria-label="터미널 명령 입력"></form>
+          </div>
+        </section>
+
+        <section class="detail-panel" data-panel="roadmap">
+          <div class="roadmap">
+            <article class="road-step current"><span class="road-dot"></span><span class="road-state">진행 중</span><div class="road-content"><h2>컴퓨터공학 기초 및 프로그래밍</h2><p>전공 학습을 통해 컴퓨터 시스템과 여러 프로그래밍 언어의 기반을 다집니다.</p></div></article>
+            <article class="road-step current"><span class="road-dot"></span><span class="road-state">학습·실습</span><div class="road-content"><h2>Linux, Git, Docker, AWS</h2><p>서버 환경과 버전 관리, 컨테이너, 클라우드 인스턴스를 직접 다뤄봅니다.</p></div></article>
+            <article class="road-step"><span class="road-dot"></span><span class="road-state">다음 단계</span><div class="road-content"><h2>CI/CD 및 클라우드 자동화</h2><p>빌드와 배포의 반복 과정을 자동화하고 안정적인 변경 흐름을 학습합니다.</p></div></article>
+            <article class="road-step"><span class="road-dot"></span><span class="road-state">확장 계획</span><div class="road-content"><h2>Terraform, Kubernetes, Monitoring</h2><p>인프라 코드화, 컨테이너 오케스트레이션, 서비스 관측 역량을 넓힙니다.</p></div></article>
+            <article class="road-step"><span class="road-dot"></span><span class="road-state">목표</span><div class="road-content"><h2>실전 인프라 프로젝트와 취업 준비</h2><p>구축 과정과 운영 판단을 설명할 수 있는 클라우드·DevOps 엔지니어를 준비합니다.</p></div></article>
+          </div>
+        </section>
+
+        <section class="detail-panel" data-panel="contact">
+          <div class="contact-layout">
+            <div class="contact-primary"><p class="minor-heading">EMAIL</p><h2>프로젝트와 학습에 관한 연락은 이메일로 받을 수 있습니다.</h2><a class="email-link" href="mailto:tobotyjjj111@naver.com">tobotyjjj111@naver.com</a><button class="copy-button" id="copy-email" type="button">이메일 주소 복사</button></div>
+            <aside class="contact-secondary"><h3>Other Channels</h3><div class="pending-link"><strong>GitHub</strong><span>실제 계정 URL 확인 후 연결 예정</span></div><div class="pending-link"><strong>Project Repositories</strong><span>공개 가능한 저장소 URL 확인 후 연결 예정</span></div></aside>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="shell footer-inner"><strong>J.WON</strong><span>정주원 · 조선대학교 컴퓨터공학과</span><span>© <span id="year"></span> Personal Cloud Portfolio</span></div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      'use strict';
+      const pageData = {
+        about: { index: '01', title: 'About Me', summary: '컴퓨터공학을 공부하며 클라우드와 운영에 관심을 두게 된 현재의 방향을 담았습니다.' },
+        stack: { index: '02', title: 'Tech Stack', summary: '실습하거나 학습한 기술과 앞으로 확장할 영역을 과장 없이 나누어 정리했습니다.' },
+        projects: { index: '03', title: 'Projects', summary: '식재료, 장애 대응, 교육과정, 포켓몬이라는 서로 다른 문제를 다룬 프로젝트입니다.' },
+        architecture: { index: '04', title: 'Cloud Architecture', summary: '방문자의 요청이 AWS EC2와 Nginx를 거쳐 단일 HTML 파일에 도달하는 구조입니다.' },
+        deployment: { index: '05', title: 'Deployment & Operations', summary: 'EC2 인스턴스 준비부터 정적 페이지 확인까지, 실제 검증할 수 있는 배포 절차를 기록합니다.' },
+        terminal: { index: '06', title: 'Interactive Terminal', summary: '정해진 명령어로 프로필을 탐색하는 안전한 JavaScript 기반 체험 인터페이스입니다.' },
+        roadmap: { index: '07', title: 'Career Roadmap', summary: '현재의 전공 학습에서 클라우드·DevOps 엔지니어 준비까지 이어지는 단계입니다.' },
+        contact: { index: '08', title: 'Contact', summary: '확인된 연락 수단만 제공합니다. 미확인 외부 계정은 임의로 연결하지 않았습니다.' }
+      };
+      const archData = {
+        browser: ['Browser', '방문자가 주소를 입력하면 웹페이지에 대한 HTTP 요청을 시작합니다.'],
+        internet: ['Internet', '브라우저의 요청을 EC2 인스턴스의 공개 주소까지 전달하는 네트워크 구간입니다.'],
+        security: ['EC2 Security Group', 'EC2로 들어오는 트래픽을 제어합니다. 정적 웹 접속을 위해 필요한 HTTP 규칙을 확인합니다.'],
+        ec2: ['AWS EC2', 'Linux 기반 가상 서버로, Nginx와 배포 파일이 실행되는 컴퓨팅 환경입니다.'],
+        nginx: ['Nginx', 'HTTP 요청을 받아 웹 루트에 배치된 정적 index.html을 응답합니다.'],
+        html: ['index.html', 'HTML, CSS, JavaScript를 모두 포함해 외부 빌드 과정 없이 실행되는 최종 제출 파일입니다.']
+      };
+      const terminalCommands = {
+        help: '사용 가능한 명령어: help, whoami, about, skills, projects, career, contact, clear',
+        whoami: '정주원 (JUNG JU WON)\n조선대학교 컴퓨터공학과\n목표: Cloud Engineer → DevOps Engineer',
+        about: '클라우드 인프라를 기반으로 안정적인 서비스를 구축하고 운영하는 엔지니어를 목표로 합니다.',
+        skills: '실습/학습: AWS EC2, Linux, Docker, Nginx, Python, Java, HTML, CSS, JavaScript, SQL, FastAPI, Git, Oracle Database\n학습 계획: CI/CD, Terraform, Kubernetes, Monitoring, MLOps',
+        projects: '01 Naenglog — 식재료 관리 및 레시피 추천\n02 OpsMate — Incident Assistant\n03 EduMap AI — 교육과정 탐색 및 추천\n04 Pokémon Center — FastAPI & Docker 실습',
+        career: 'Cloud → DevOps → AI Infrastructure\n현재 기반을 쌓고 있으며, 자동화와 안정적인 운영으로 관심을 확장하고 있습니다.',
+        contact: 'Email: tobotyjjj111@naver.com'
+      };
+
+      const homeView = document.getElementById('home-view');
+      const detailView = document.getElementById('detail-view');
+      const menuButton = document.querySelector('.menu-button');
+      const mobileNav = document.getElementById('mobile-nav');
+      const terminalInput = document.getElementById('terminal-input');
+      const terminalOutput = document.getElementById('terminal-output');
+
+      function renderRoute() {
+        const raw = location.hash.slice(1);
+        const page = raw.startsWith('page/') ? raw.split('/')[1] : null;
+        if (page && pageData[page]) showDetail(page); else showHome(raw);
+      }
+
+      function showHome(anchor) {
+        homeView.classList.add('is-active');
+        detailView.classList.remove('is-active');
+        document.querySelectorAll('.detail-panel').forEach(panel => panel.classList.remove('is-active'));
+        document.title = 'J.WON — Personal Profile / Cloud Engineering';
+        requestAnimationFrame(() => {
+          const target = anchor && anchor !== 'home' ? document.getElementById(anchor) : null;
+          if (target) target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+          else scrollTo({ top: 0, behavior: 'auto' });
+        });
+      }
+
+      function showDetail(page) {
+        const data = pageData[page];
+        homeView.classList.remove('is-active');
+        detailView.classList.add('is-active');
+        document.querySelectorAll('.detail-panel').forEach(panel => panel.classList.toggle('is-active', panel.dataset.panel === page));
+        document.getElementById('detail-kicker').textContent = `DETAIL / ${data.index}`;
+        document.getElementById('detail-title').textContent = data.title;
+        document.getElementById('detail-summary').textContent = data.summary;
+        document.title = `${data.title} — J.WON`;
+        scrollTo({ top: 0, behavior: 'auto' });
+        if (page === 'terminal') requestAnimationFrame(() => terminalInput.focus());
+      }
+
+      function navigateToPage(page) { location.hash = `page/${page}`; }
+      document.querySelectorAll('[data-page]').forEach(button => button.addEventListener('click', () => navigateToPage(button.dataset.page)));
+      document.getElementById('back-home').addEventListener('click', () => { location.hash = 'explore'; });
+      window.addEventListener('hashchange', renderRoute);
+
+      menuButton.addEventListener('click', () => {
+        const open = menuButton.getAttribute('aria-expanded') === 'true';
+        menuButton.setAttribute('aria-expanded', String(!open));
+        menuButton.setAttribute('aria-label', open ? '메뉴 열기' : '메뉴 닫기');
+        menuButton.textContent = open ? '☰' : '×';
+        mobileNav.classList.toggle('is-open', !open);
+      });
+      mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+        menuButton.setAttribute('aria-expanded', 'false'); menuButton.textContent = '☰'; mobileNav.classList.remove('is-open');
+      }));
+
+      document.querySelectorAll('.project-toggle').forEach(toggle => toggle.addEventListener('click', () => {
+        const item = toggle.closest('.project-item');
+        const open = item.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', String(open));
+      }));
+
+      document.querySelectorAll('.arch-node').forEach(node => node.addEventListener('click', () => {
+        document.querySelectorAll('.arch-node').forEach(item => item.setAttribute('aria-pressed', 'false'));
+        node.setAttribute('aria-pressed', 'true');
+        const [title, description] = archData[node.dataset.arch];
+        document.getElementById('arch-title').textContent = title;
+        document.getElementById('arch-description').textContent = description;
+      }));
+
+      document.getElementById('terminal-form').addEventListener('submit', event => {
+        event.preventDefault();
+        const command = terminalInput.value.trim().toLowerCase();
+        if (!command) return;
+        if (command === 'clear') { terminalOutput.innerHTML = ''; terminalInput.value = ''; return; }
+        const line = document.createElement('div');
+        const cmd = document.createElement('span'); cmd.className = 'cmd'; cmd.textContent = `visitor@jwon:~$ ${command}`;
+        const response = document.createElement('div'); response.textContent = terminalCommands[command] || `명령어를 찾을 수 없습니다: ${command}\n'help'를 입력해 사용 가능한 명령어를 확인하세요.`;
+        line.append(cmd, document.createTextNode('\n'), response);
+        terminalOutput.append(line);
+        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        terminalInput.value = '';
+      });
+
+      function showToast(message) {
+        const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('is-visible');
+        clearTimeout(showToast.timer); showToast.timer = setTimeout(() => toast.classList.remove('is-visible'), 2200);
+      }
+      document.getElementById('copy-email').addEventListener('click', async () => {
+        const email = 'tobotyjjj111@naver.com';
+        try { await navigator.clipboard.writeText(email); showToast('이메일 주소를 복사했습니다.'); }
+        catch (_) {
+          const area = document.createElement('textarea'); area.value = email; area.style.position = 'fixed'; area.style.opacity = '0'; document.body.append(area); area.select();
+          const copied = document.execCommand('copy'); area.remove(); showToast(copied ? '이메일 주소를 복사했습니다.' : '복사하지 못했습니다. 이메일을 직접 선택해 주세요.');
+        }
+      });
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+      renderRoute();
+    })();
+  </script>
+</body>
+</html>
