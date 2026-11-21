@@ -101,11 +101,17 @@
     .hero-role { margin: 22px 0 0; color: var(--muted); }
     .hero-role strong { color: var(--accent-soft); font-weight: 650; }
     .hero-aside { position: relative; padding: 70px 0 54px 42px; border-left: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; }
-    .monogram { position: relative; width: 100%; aspect-ratio: 1; max-width: 260px; margin-left: auto; }
-    .monogram::before, .monogram::after { content: ""; position: absolute; border: 1px solid var(--border); }
-    .monogram::before { inset: 0; transform: rotate(8deg); }
-    .monogram::after { inset: 16%; transform: rotate(-8deg); border-color: rgba(74,158,255,.5); }
-    .monogram span { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(64px, 9vw, 112px); font-weight: 800; letter-spacing: -.12em; }
+    .signature-visual { position: relative; width: min(100%, 320px); margin-left: auto; padding: 24px 0 18px 24px; }
+    .signature-visual::before { content: ""; position: absolute; inset: 0 0 0 36%; border-left: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .signature-visual svg { position: relative; width: 100%; height: auto; overflow: visible; }
+    .signature-visual .sig-line { fill: none; stroke: #324963; stroke-width: 1.2; }
+    .signature-visual .sig-active { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+    .signature-visual .sig-node { fill: var(--bg); stroke: #3d526b; stroke-width: 1.2; }
+    .signature-visual .sig-core { fill: #10243d; stroke: var(--accent); stroke-width: 1.4; }
+    .signature-visual text { fill: var(--muted); font-family: ui-monospace, monospace; font-size: 8px; letter-spacing: .1em; }
+    .signature-visual .sig-jw { fill: var(--text); font-family: inherit; font-size: 39px; font-weight: 850; letter-spacing: -.12em; }
+    .signature-caption { position: relative; display: flex; justify-content: space-between; gap: 16px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; font-family: ui-monospace, monospace; }
+    .signature-caption strong { color: var(--accent-soft); font-weight: 600; }
     .hero-meta { display: grid; gap: 14px; margin-top: 48px; }
     .hero-meta div { display: flex; justify-content: space-between; gap: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
     .hero-meta span { color: var(--muted); font-size: 13px; }
@@ -117,29 +123,41 @@
     .section-title { margin: 0; font-size: clamp(32px, 5vw, 54px); line-height: 1.12; letter-spacing: -.045em; }
     .section-desc { max-width: 660px; margin: 16px 0 0; color: var(--muted); }
 
+    .profile-layout { display: grid; grid-template-columns: .72fr 1.28fr; gap: 70px; align-items: start; }
+    .profile-anchor { padding: 34px 0; border-top: 3px solid var(--accent); border-bottom: 1px solid var(--border); }
+    .profile-anchor span { color: var(--muted); font-size: 13px; letter-spacing: .1em; }
+    .profile-anchor strong { display: block; margin: 18px 0 7px; font-size: clamp(30px, 5vw, 48px); line-height: 1.05; letter-spacing: -.045em; }
+    .profile-anchor p { margin: 0; color: var(--accent-soft); font-size: 18px; }
     .profile-ledger { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--border); }
-    .ledger-row { display: grid; grid-template-columns: 100px 1fr; gap: 28px; padding: 22px 10px 22px 0; border-bottom: 1px solid var(--border); }
-    .ledger-row:nth-child(odd) { margin-right: 36px; }
+    .ledger-row { display: grid; grid-template-columns: 88px 1fr; gap: 22px; padding: 20px 8px 20px 0; border-bottom: 1px solid var(--border); }
+    .ledger-row:nth-child(odd) { margin-right: 30px; }
     .ledger-row dt { color: var(--muted); font-size: 14px; }
     .ledger-row dd { margin: 0; font-weight: 600; }
     .ledger-row a { text-decoration-color: rgba(74,158,255,.5); text-underline-offset: 4px; }
 
-    .education-line { display: grid; grid-template-columns: repeat(4, 1fr); counter-reset: edu; }
-    .edu-stop { position: relative; padding: 34px 24px 0 0; border-top: 1px solid var(--border); counter-increment: edu; }
-    .edu-stop::before { content: ""; position: absolute; width: 9px; height: 9px; top: -5px; left: 0; background: var(--bg); border: 2px solid var(--accent); }
-    .edu-stop::after { content: "0" counter(edu); display: block; margin-bottom: 36px; color: var(--muted); font-size: 13px; letter-spacing: .12em; }
-    .edu-stop strong { display: block; font-size: 18px; }
+    .education-line { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .edu-stop { position: relative; min-height: 180px; padding: 42px 24px 24px 0; border-top: 1px solid var(--border); transition: background .2s ease, padding-left .2s ease; }
+    .edu-stop::before { content: ""; position: absolute; width: 9px; height: 9px; top: -5px; left: 0; background: var(--bg); border: 2px solid #6f8197; transition: border-color .2s, background .2s; }
+    .edu-stop:not(:last-child)::after { content: ""; position: absolute; top: -1px; right: 0; width: 28px; height: 1px; background: var(--accent); opacity: .55; }
+    .edu-stop:hover { padding-left: 12px; background: linear-gradient(180deg, rgba(74,158,255,.06), transparent 70%); }
+    .edu-stop:hover::before, .edu-stop.current::before { border-color: var(--accent); background: var(--accent); }
+    .edu-stop strong { display: block; margin-bottom: 5px; font-size: 18px; }
     .edu-stop span { color: var(--muted); font-size: 14px; }
+    .edu-stop small { display: block; margin-top: 38px; color: var(--muted); font-size: 12px; letter-spacing: .08em; }
+    .edu-stop.current { padding-left: 20px; background: var(--surface); border-top-color: var(--accent); }
+    .edu-stop.current small { color: var(--accent-soft); }
 
-    .identity-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
-    .interest-panel { min-height: 280px; padding: 38px; background: var(--surface); }
+    .identity-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 18px; }
+    .interest-panel { min-height: 330px; padding: 38px; background: var(--surface); border-top: 3px solid #d5e7ff; }
     .interest-panel h3 { margin: 0 0 28px; font-size: 22px; }
     .interest-list { display: grid; }
-    .interest-row { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 16px; padding: 17px 0; border-top: 1px solid var(--border); }
+    .interest-row { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 16px; padding: 17px 0; border-top: 1px solid var(--border); transition: transform .2s ease; }
+    .interest-row:hover { transform: translateX(7px); }
     .interest-row .symbol { color: var(--accent-soft); font-family: ui-monospace, monospace; font-weight: 700; }
     .interest-row small { color: var(--muted); }
-    .identity-note { display: flex; flex-direction: column; justify-content: space-between; min-height: 280px; padding: 38px; color: #07101d; background: var(--accent-soft); }
-    .identity-note p { margin: 0; max-width: 400px; font-size: 26px; line-height: 1.45; letter-spacing: -.025em; }
+    .identity-note { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 330px; padding: 38px; color: #07101d; background: #d8eaff; overflow: hidden; }
+    .identity-note::after { content: "PK"; position: absolute; right: -8px; bottom: -50px; color: rgba(7,16,29,.08); font-size: 160px; font-weight: 900; letter-spacing: -.1em; }
+    .identity-note p { position: relative; z-index: 1; margin: 0; max-width: 400px; font-size: 26px; line-height: 1.45; letter-spacing: -.025em; }
     .identity-note small { font-weight: 700; letter-spacing: .1em; }
 
     .vision-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 18px; margin-bottom: 48px; }
@@ -151,6 +169,14 @@
     .vision-copy p { margin: 0; font-size: 20px; line-height: 1.75; }
     .topic-list { display: flex; flex-wrap: wrap; gap: 10px; align-content: start; }
     .topic-list span { padding: 9px 12px; color: var(--muted); border: 1px solid var(--border); font-size: 14px; }
+    .vision-evidence { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 54px; background: var(--border); border: 1px solid var(--border); }
+    .vision-column { padding: 28px; background: var(--bg); }
+    .vision-column.future { background: var(--surface); }
+    .vision-column h3 { margin: 0 0 8px; font-size: 17px; }
+    .vision-column p { margin: 0 0 20px; color: var(--muted); font-size: 14px; }
+    .vision-column ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .vision-column li { position: relative; padding-left: 18px; color: var(--text); }
+    .vision-column li::before { content: ""; position: absolute; left: 0; top: .75em; width: 6px; height: 1px; background: var(--accent); }
 
     .portal-intro { margin-bottom: 34px; color: var(--muted); }
     .portal-list { border-top: 1px solid var(--border); }
@@ -269,7 +295,9 @@
     .contact-secondary h3 { margin: 0 0 24px; }
     .pending-link { padding: 20px 0; border-top: 1px solid var(--border); }
     .pending-link strong { display: block; }
-    .pending-link span { color: var(--muted); font-size: 14px; }
+    .pending-link span, .pending-link a { color: var(--muted); font-size: 14px; }
+    .pending-link a { display: inline-block; margin-top: 3px; text-underline-offset: 4px; text-decoration-color: rgba(74,158,255,.5); }
+    .pending-link a:hover { color: var(--accent-soft); }
 
     .site-footer { padding: 32px 0; }
     .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; color: var(--muted); font-size: 13px; }
@@ -283,10 +311,10 @@
       .hero { min-height: auto; grid-template-columns: 1fr; }
       .hero-main { padding: 74px 0 56px; }
       .hero-aside { min-height: 330px; padding: 48px 0 48px 32px; border-left: 0; border-top: 1px solid var(--border); flex-direction: row; align-items: end; gap: 40px; }
-      .monogram { width: 210px; margin: 0; }
+      .signature-visual { width: 260px; margin: 0; }
       .hero-meta { flex: 1; }
       .section-head { grid-template-columns: 110px 1fr; }
-      .identity-grid, .vision-copy, .about-editorial, .architecture-layout, .contact-layout { grid-template-columns: 1fr; }
+      .profile-layout, .identity-grid, .vision-copy, .about-editorial, .architecture-layout, .contact-layout { grid-template-columns: 1fr; }
       .portal-link { grid-template-columns: 60px 1fr 40px; }
       .portal-link p { grid-column: 2 / 3; }
       .deploy-layout { grid-template-columns: 1fr; }
@@ -300,7 +328,7 @@
       .hero h1 { font-size: clamp(64px, 23vw, 92px); }
       .hero-lead { margin-top: 32px; font-size: 21px; }
       .hero-aside { padding-left: 0; min-height: 0; align-items: stretch; flex-direction: column; }
-      .monogram { width: 170px; }
+      .signature-visual { width: min(100%, 290px); padding-left: 0; }
       .hero-meta { width: 100%; margin-top: 12px; }
       .section { padding: 68px 0; }
       .section-head { grid-template-columns: 1fr; gap: 10px; margin-bottom: 36px; }
@@ -308,14 +336,16 @@
       .ledger-row:nth-child(odd) { margin-right: 0; }
       .ledger-row { grid-template-columns: 84px 1fr; gap: 16px; }
       .education-line { grid-template-columns: 1fr; padding-left: 10px; }
-      .edu-stop { padding: 0 0 32px 30px; border-top: 0; border-left: 1px solid var(--border); }
+      .edu-stop, .edu-stop.current { min-height: 0; padding: 0 0 36px 30px; border-top: 0; border-left: 1px solid var(--border); background: transparent; }
       .edu-stop::before { top: 7px; left: -5px; }
-      .edu-stop::after { margin-bottom: 6px; }
+      .edu-stop:not(:last-child)::after { top: auto; right: auto; left: -1px; bottom: 0; width: 1px; height: 36px; }
+      .edu-stop small { margin-top: 8px; }
       .interest-panel, .identity-note { padding: 26px; }
       .interest-row { grid-template-columns: 34px 1fr; }
       .interest-row small { grid-column: 2; }
       .identity-note p { font-size: 22px; }
       .vision-flow { grid-template-columns: 1fr; }
+      .vision-evidence { grid-template-columns: 1fr; }
       .flow-line { width: 1px; height: 22px; margin-left: 28px; }
       .portal-link { grid-template-columns: 42px 1fr 32px; gap: 10px; padding: 22px 0; }
       .portal-link p { font-size: 13px; }
@@ -379,7 +409,22 @@
           <p class="hero-role"><strong>Cloud Engineer</strong> → <strong>DevOps Engineer</strong></p>
         </div>
         <aside class="hero-aside" aria-label="프로필 요약">
-          <div class="monogram" aria-hidden="true"><span>JW</span></div>
+          <div class="signature-visual" aria-hidden="true">
+            <svg viewBox="0 0 280 230" role="img">
+              <title>J.WON 클라우드 경로 시그니처</title>
+              <path class="sig-line" d="M28 58H88V115H138M138 115H192V64H248M138 115V180H226"/>
+              <path class="sig-active" d="M28 58H88V115H138V180H226"/>
+              <rect class="sig-node" x="12" y="42" width="32" height="32"/>
+              <rect class="sig-node" x="72" y="99" width="32" height="32"/>
+              <rect class="sig-node" x="232" y="48" width="32" height="32"/>
+              <rect class="sig-node" x="210" y="164" width="32" height="32"/>
+              <rect class="sig-core" x="112" y="89" width="54" height="54"/>
+              <text x="13" y="34">CLIENT</text><text x="220" y="38">CLOUD</text><text x="201" y="216">OPERATE</text>
+              <text class="sig-jw" x="119" y="130">JW</text>
+              <circle cx="88" cy="58" r="3" fill="#4a9eff"/><circle cx="192" cy="115" r="3" fill="#4a9eff"/>
+            </svg>
+            <div class="signature-caption"><span>PERSON → SYSTEM</span><strong>BUILD / RUN</strong></div>
+          </div>
           <div class="hero-meta">
             <div><span>MAJOR</span><strong>Computer Engineering</strong></div>
             <div><span>BASE</span><strong>Gwangju, Korea</strong></div>
@@ -391,15 +436,18 @@
       <section class="section" id="profile">
         <div class="shell">
           <header class="section-head"><span class="section-index">01 / PROFILE</span><div><h2 class="section-title">기본 프로필</h2><p class="section-desc">기술보다 먼저, 현재의 소속과 배경을 정확하게 소개합니다.</p></div></header>
-          <dl class="profile-ledger">
-            <div class="ledger-row"><dt>이름</dt><dd>정주원</dd></div>
-            <div class="ledger-row"><dt>성별</dt><dd>남성</dd></div>
-            <div class="ledger-row"><dt>출생지</dt><dd>서울특별시</dd></div>
-            <div class="ledger-row"><dt>거주지</dt><dd>광주광역시</dd></div>
-            <div class="ledger-row"><dt>대학교</dt><dd>조선대학교</dd></div>
-            <div class="ledger-row"><dt>전공</dt><dd>컴퓨터공학과</dd></div>
-            <div class="ledger-row"><dt>이메일</dt><dd><a href="mailto:tobotyjjj111@naver.com">tobotyjjj111@naver.com</a></dd></div>
-          </dl>
+          <div class="profile-layout">
+            <aside class="profile-anchor"><span>JUNG JU WON</span><strong>정주원</strong><p>조선대학교 컴퓨터공학과</p></aside>
+            <dl class="profile-ledger">
+              <div class="ledger-row"><dt>성별</dt><dd>남성</dd></div>
+              <div class="ledger-row"><dt>희망 진로</dt><dd>Cloud / DevOps</dd></div>
+              <div class="ledger-row"><dt>출생지</dt><dd>서울특별시</dd></div>
+              <div class="ledger-row"><dt>거주지</dt><dd>광주광역시</dd></div>
+              <div class="ledger-row"><dt>대학교</dt><dd>조선대학교</dd></div>
+              <div class="ledger-row"><dt>전공</dt><dd>컴퓨터공학과</dd></div>
+              <div class="ledger-row"><dt>이메일</dt><dd><a href="mailto:tobotyjjj111@naver.com">tobotyjjj111@naver.com</a></dd></div>
+            </dl>
+          </div>
         </div>
       </section>
 
@@ -407,10 +455,10 @@
         <div class="shell">
           <header class="section-head"><span class="section-index">02 / EDUCATION</span><div><h2 class="section-title">학력의 흐름</h2><p class="section-desc">서울에서 시작해 담양을 거쳐, 현재 광주에서 컴퓨터공학을 공부하고 있습니다.</p></div></header>
           <div class="education-line" aria-label="학력 순서">
-            <div class="edu-stop"><strong>금곡초등학교</strong><span>Elementary School</span></div>
-            <div class="edu-stop"><strong>담양중학교</strong><span>Middle School</span></div>
-            <div class="edu-stop"><strong>창평고등학교</strong><span>High School</span></div>
-            <div class="edu-stop"><strong>조선대학교</strong><span>컴퓨터공학과</span></div>
+            <div class="edu-stop"><strong>금곡초등학교</strong><span>Elementary School</span><small>배움의 시작</small></div>
+            <div class="edu-stop"><strong>담양중학교</strong><span>Middle School</span><small>담양</small></div>
+            <div class="edu-stop"><strong>창평고등학교</strong><span>High School</span><small>담양</small></div>
+            <div class="edu-stop current"><strong>조선대학교</strong><span>컴퓨터공학과</span><small>CURRENT / 광주</small></div>
           </div>
         </div>
       </section>
@@ -443,6 +491,10 @@
           <div class="vision-copy">
             <p>Linux, Docker, AWS를 중심으로 실무 기반을 쌓고 있으며, 서비스의 배포부터 운영까지 이어지는 과정과 자동화에 관심이 있습니다.</p>
             <div class="topic-list" aria-label="관심 분야"><span>AWS</span><span>Linux</span><span>Docker</span><span>CI/CD</span><span>Infrastructure as Code</span><span>Monitoring</span><span>MLOps</span></div>
+          </div>
+          <div class="vision-evidence">
+            <article class="vision-column"><h3>현재의 기반</h3><p>수업과 프로젝트에서 직접 다루는 범위</p><ul><li>Linux 서버 환경과 Git</li><li>AWS EC2 정적 페이지 배포</li><li>Docker 컨테이너 실습</li></ul></article>
+            <article class="vision-column future"><h3>다음 학습 방향</h3><p>앞으로 확장할 계획이며 보유 숙련도를 뜻하지 않습니다</p><ul><li>CI/CD 자동화와 Terraform</li><li>Kubernetes 및 Monitoring</li><li>AI Infrastructure / MLOps</li></ul></article>
           </div>
         </div>
       </section>
@@ -562,7 +614,7 @@
         <section class="detail-panel" data-panel="contact">
           <div class="contact-layout">
             <div class="contact-primary"><p class="minor-heading">EMAIL</p><h2>프로젝트와 학습에 관한 연락은 이메일로 받을 수 있습니다.</h2><a class="email-link" href="mailto:tobotyjjj111@naver.com">tobotyjjj111@naver.com</a><button class="copy-button" id="copy-email" type="button">이메일 주소 복사</button></div>
-            <aside class="contact-secondary"><h3>Other Channels</h3><div class="pending-link"><strong>GitHub</strong><span>실제 계정 URL 확인 후 연결 예정</span></div><div class="pending-link"><strong>Project Repositories</strong><span>공개 가능한 저장소 URL 확인 후 연결 예정</span></div></aside>
+            <aside class="contact-secondary"><h3>Other Channels</h3><div class="pending-link"><strong>GitHub</strong><a href="https://github.com/jwjeong-825/jwon-cloud-portfolio" target="_blank" rel="noopener noreferrer">jwon-cloud-portfolio 저장소</a></div><div class="pending-link"><strong>Project Repositories</strong><span>공개 가능한 개별 저장소 URL 확인 후 연결 예정</span></div></aside>
           </div>
         </section>
       </div>
